@@ -1,12 +1,12 @@
 import { Route, Router, Routes } from '@solidjs/router';
 
 // Pages
-import Home from './pages/Home';
+import Login from './pages/Login';
 
 const Routing = () => (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Login />} />
       </Routes>
     </Router>
   )

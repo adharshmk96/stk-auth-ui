@@ -13,6 +13,9 @@ dependencies:
     version: 1.7.7
 
 devDependencies:
+  '@iconify-icon/solid':
+    specifier: ^1.0.8
+    version: 1.0.8(solid-js@1.7.7)
   autoprefixer:
     specifier: ^10.4.14
     version: 10.4.14(postcss@8.4.25)
@@ -581,6 +584,19 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@iconify-icon/solid@1.0.8(solid-js@1.7.7):
+    resolution: {integrity: sha512-2H4y4f9wOQ0qzAti4dFo84OhU6A9kkmDOqsWX0zAbl2vhQvGylMva6U9/TYwrQUH2N71xje9gqQCb3lfbpfwpw==}
+    peerDependencies:
+      solid-js: '>=1'
+    dependencies:
+      iconify-icon: 1.0.8
+      solid-js: 1.7.7
+    dev: true
+
+  /@iconify/types@2.0.0:
+    resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
+    dev: true
 
   /@jridgewell/gen-mapping@0.3.3:
     resolution: {integrity: sha512-HLhSWOLRi875zjjMG/r+Nv0oCW8umGb0BgEhyX3dDX3egwZtB8PqLnjz3yedt8R5StBrzcg4aBpnh8UA9D1BoQ==}
@@ -1172,6 +1188,12 @@ packages:
 
   /html-entities@2.3.3:
     resolution: {integrity: sha512-DV5Ln36z34NNTDgnz0EWGBLZENelNAtkiFA4kyNOG2tDI6Mz1uSWiq1wAKdyjnJwyDiDO7Fa2SO1CTxPXL8VxA==}
+    dev: true
+
+  /iconify-icon@1.0.8:
+    resolution: {integrity: sha512-jvbUKHXf8EnGGArmhlP2IG8VqQLFFyTvTqb9LVL2TKTh7/eCCD1o2HHE9thpbJJb6B8hzhcFb6rOKhvo7reNKA==}
+    dependencies:
+      '@iconify/types': 2.0.0
     dev: true
 
   /inflight@1.0.6:

@@ -10,6 +10,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@iconify-icon/solid": "^1.0.8",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.25",
     "solid-devtools": "^0.27.3",
