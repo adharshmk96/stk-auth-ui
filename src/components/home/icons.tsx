@@ -6,9 +6,7 @@ interface HomeIconProps {
 
 function HomeIcon(props: HomeIconProps) {
     return (
-        <div>
-            <Icon icon={props.icon} class="text-3xl" />
-        </div>
+        <Icon icon={props.icon} class="text-3xl" />
     )
 }
 
