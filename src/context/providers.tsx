@@ -1,5 +1,6 @@
 import { JSXElement } from "solid-js";
 import TitleProvider from "./title";
+import ThemeProvider from "./theme";
 
 interface providersProps {
     children: JSXElement;
@@ -9,7 +10,9 @@ function ContextProvider(props: providersProps) {
     return (
         <>
             <TitleProvider prefix="Auth">
-                {props.children}
+                <ThemeProvider defaultTheme="light">
+                    {props.children}
+                </ThemeProvider>
             </TitleProvider>
         </>
     )

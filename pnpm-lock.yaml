@@ -16,6 +16,9 @@ devDependencies:
   '@iconify-icon/solid':
     specifier: ^1.0.8
     version: 1.0.8(solid-js@1.7.7)
+  '@playwright/test':
+    specifier: ^1.35.1
+    version: 1.35.1
   autoprefixer:
     specifier: ^10.4.14
     version: 10.4.14(postcss@8.4.25)
@@ -653,6 +656,17 @@ packages:
       fastq: 1.14.0
     dev: true
 
+  /@playwright/test@1.35.1:
+    resolution: {integrity: sha512-b5YoFe6J9exsMYg0pQAobNDR85T1nLumUYgUTtKm4d21iX2L7WqKq9dW8NGJ+2vX0etZd+Y7UeuqsxDXm9+5ZA==}
+    engines: {node: '>=16'}
+    hasBin: true
+    dependencies:
+      '@types/node': 20.4.1
+      playwright-core: 1.35.1
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: true
+
   /@solid-devtools/debugger@0.22.1(solid-js@1.7.7):
     resolution: {integrity: sha512-y/8Y7rKZPqP5cN4uHVySTHtX5KSfYcKnBVzmVmzaiZhqzQwqu6goc7EgSq3hM1MJYkcLWcfBodMTdJpa4LqhHQ==}
     peerDependencies:
@@ -869,6 +883,10 @@ packages:
     resolution: {integrity: sha512-MitHFXnhtgwsGZWtT68URpOvLN4EREih1u3QtQiN4VdAxWKRVvGCSvw/Qth0M0Qq3pJpnGOu5JaM/ydK7OGbqg==}
     dependencies:
       '@babel/types': 7.22.5
+    dev: true
+
+  /@types/node@20.4.1:
+    resolution: {integrity: sha512-JIzsAvJeA/5iY6Y/OxZbv1lUcc8dNSE77lb2gnBH+/PJ3lFR1Ccvgwl5JWnHAkNHcRsT0TbpVOsiMKZ1F/yyJg==}
     dev: true
 
   /ansi-styles@3.2.1:
@@ -1378,6 +1396,12 @@ packages:
   /pirates@4.0.5:
     resolution: {integrity: sha512-8V9+HQPupnaXMA23c5hvl69zXvTwTzyAYasnkb0Tts4XvO4CliqONMOnvlq26rkhLC3nWDFBJf73LU1e1VZLaQ==}
     engines: {node: '>= 6'}
+    dev: true
+
+  /playwright-core@1.35.1:
+    resolution: {integrity: sha512-pNXb6CQ7OqmGDRspEjlxE49w+4YtR6a3X6mT1hZXeJHWmsEz7SunmvZeiG/+y1yyMZdHnnn73WKYdtV1er0Xyg==}
+    engines: {node: '>=16'}
+    hasBin: true
     dev: true
 
   /postcss-import@15.1.0(postcss@8.4.25):

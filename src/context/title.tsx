@@ -1,15 +1,15 @@
 import { Accessor, JSXElement, Setter, createContext, createEffect, createSignal, useContext } from "solid-js";
 
-interface titleProps {
+interface TitleProviderProps {
     children: JSXElement
     prefix?: string
 }
 
-type titleContext = [Accessor<string>, Setter<string>];
+type TTitleContext = [Accessor<string>, Setter<string>];
 
-export const TitleContext = createContext<titleContext>([() => "", undefined]);
+export const TitleContext = createContext<TTitleContext>([() => "", undefined]);
 
-function TitleProvider(props: titleProps) {
+function TitleProvider(props: TitleProviderProps) {
     const [title, setTitle] = createSignal("");
 
     createEffect(() => {
@@ -18,7 +18,7 @@ function TitleProvider(props: titleProps) {
         document.title = finalTitle();
     });
 
-    const values: [Accessor<string>, Setter<string>] = [title, setTitle];
+    const values: TTitleContext = [title, setTitle];
 
     return (
         <TitleContext.Provider value={values}>
