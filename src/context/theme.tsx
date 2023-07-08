@@ -1,5 +1,6 @@
-import { Accessor, JSXElement, Setter, createContext, createEffect, createSignal, useContext } from "solid-js";
+import { Accessor, JSXElement, Setter, createContext, createEffect, createSignal, onMount, useContext } from "solid-js";
 
+import constants from '@/constants';
 
 type TThemeProviderProps = {
     children: JSXElement;
@@ -8,18 +9,29 @@ type TThemeProviderProps = {
 
 type TThemeContext = [Accessor<string>, Setter<string>];
 
-export const ThemeContext = createContext<TThemeContext>([() => "",undefined])
+export const ThemeContext = createContext<TThemeContext>([() => "", undefined])
+
+const ThemeKey = "stk-auth-theme"
 
 const ThemeProvider = (props: TThemeProviderProps) => {
     const [theme, setTheme] = createSignal<string>(props.defaultTheme);
-    
+
+    onMount(() => {
+        // read from cache
+        const cachedTheme = localStorage.getItem(ThemeKey)
+        if (cachedTheme) {
+            setTheme(cachedTheme)
+        }
+    })
 
     createEffect(() => {
         // if (!props.defaultTheme && theme() === "") {
         //     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
         //     setTheme(prefersDark ? "dark" : "light")
         // }
-        document.documentElement.classList.toggle("dark", theme() === "dark")
+        document.documentElement.classList.toggle(constants.DARK_MODE, theme() === constants.DARK_MODE)
+        // write to cache
+        localStorage.setItem(ThemeKey, theme())
     })
 
     const values: TThemeContext = [
