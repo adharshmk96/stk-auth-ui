@@ -10,7 +10,7 @@ function SubmitButton(props: SubmitButtonProps) {
   const c = children(() => props.children);
   const merged = mergeProps(
     {
-      class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded dark:bg-blue-900 dark:hover:bg-blue-950",
+      class: "bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded dark:bg-emerald-900 dark:hover:bg-emerald-950",
       type: "submit"
     },
     props

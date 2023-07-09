@@ -1,5 +1,6 @@
+import Loading from "@/components/loading/loading";
 import { AUTH_SERVER_URL } from "@/config";
-import { Accessor, JSXElement, Setter, createContext, createSignal, onMount, useContext } from "solid-js";
+import { Accessor, JSXElement, Setter, Show, createContext, createEffect, createResource, createSignal, onMount, useContext } from "solid-js";
 
 type TAuthProviderProps = {
   children: JSXElement;
@@ -19,31 +20,37 @@ type Logout = () => Promise<void>;
 type TAuthContext = {
   isAuth: Accessor<boolean>;
   user: Accessor<AuthUser>;
-  loading: Accessor<boolean>;
   error: Accessor<string>;
   login: Login;
   logout: Logout;
 };
 
+const fetchUser = async () => {
+
+  const response = await fetch(`${AUTH_SERVER_URL}/api/auth/session/user`, {
+    method: "GET",
+    credentials: "include"
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    return data;
+  }
+
+  return undefined;
+};
+
 const AuthProvider = (props: TAuthProviderProps) => {
+  const [user, { refetch }] = createResource<AuthUser>(fetchUser);
   const [isAuth, setIsAuth] = createSignal<boolean>(false);
-  const [user, setUser] = createSignal<AuthUser>();
   const [error, setError] = createSignal<string>("");
-  const [loading, setLoading] = createSignal<boolean>(false);
 
-  onMount(async () => {
-    const response = await fetch(`${AUTH_SERVER_URL}/api/auth/session/user`, {
-      method: "GET",
-      credentials: "include"
-    });
-
-    if (response.ok) {
-      const data = await response.json();
+  createEffect(() => {
+    if (user()) {
       setIsAuth(true);
-      setUser(data);
     }
 
-    setLoading(false);
+    console.log(user.error)
   });
 
   const login: Login = async (username, password) => {
@@ -58,14 +65,16 @@ const AuthProvider = (props: TAuthProviderProps) => {
       });
 
       if (response.ok) {
-        const data = await response.json();        
-        setUser(data);
         setIsAuth(true);
+        refetch();
         return;
       }
 
       if (response.status === 401) {
-        setError("Invalid username or password");
+        const msg = await response.json()
+        if (msg == "invalid_credentials")  {
+            setError("Invalid username or password");
+        }
       }
     } catch (error) {
       // handle error
@@ -81,8 +90,8 @@ const AuthProvider = (props: TAuthProviderProps) => {
       });
 
       if (response.ok) {
-        setUser(undefined);
         setIsAuth(false);
+        refetch();
         return;
       }
 
@@ -98,13 +107,18 @@ const AuthProvider = (props: TAuthProviderProps) => {
   const values: TAuthContext = {
     isAuth,
     user,
-    loading,
     error,
     login,
     logout
   };
 
-  return <AuthContext.Provider value={values}>{props.children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={values}>
+      <Show when={!user.loading} fallback={<Loading />}>
+        {props.children}
+      </Show>
+    </AuthContext.Provider>
+  );
 };
 
 const AuthContext = createContext<TAuthContext>(undefined);
