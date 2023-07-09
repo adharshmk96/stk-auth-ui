@@ -8,6 +8,7 @@ import ThemeSwitch from "@/components/ThemeSwitch";
 import content from "@/content/en";
 import { AUTH_SERVER_URL } from "@/config";
 import { useNavigate } from "@solidjs/router";
+import { useAuth } from "@/context/auth";
 
 const fc = content.dashboard;
 
@@ -17,17 +18,15 @@ interface DashBoardHeaderProps {
 
 function DashBoardHeader(props: DashBoardHeaderProps) {
   const navigate = useNavigate();
+  const { logout, error } = useAuth();
 
-  const logout = async () => {
-    const result = await fetch(`${AUTH_SERVER_URL}/api/auth/logout`, {
-      method: "POST",
-      credentials: "include"
-    })
+  const logoutUser = () => {
+    logout();
 
-    if (result.ok) { navigate("/"); return }
-
-    alert("Logout Failed.")
-
+    if (error() == "") {
+      navigate("/");
+    }
+      
   }
 
   return (
@@ -36,7 +35,7 @@ function DashBoardHeader(props: DashBoardHeaderProps) {
       <div class="flex gap-5 items-center justify-center">
       <ThemeSwitch />
       <button 
-        onClick={logout}
+        onClick={logoutUser}
         type="button"
       >
         <Icon icon="ph:sign-out" class="text-3xl" />

@@ -1,9 +1,11 @@
 // lib
-import { JSXElement, children } from "solid-js";
+import { JSXElement, children, createEffect } from "solid-js";
 
 // components
 import DashBoardHeader from "./DashBoardHeader";
 import Footer from "./Footer";
+import { useAuth } from "@/context/auth";
+import { useNavigate } from "@solidjs/router";
 
 interface DashboardLayoutProps {
   children: JSXElement;
@@ -11,6 +13,17 @@ interface DashboardLayoutProps {
 
 function DashboardLayout(props: DashboardLayoutProps) {
   const c = children(() => props.children);
+
+  const navigate = useNavigate();
+
+  const {isAuth} = useAuth();
+
+  createEffect(() => {
+    if (!isAuth()) {
+      navigate("/");
+    }
+  })
+
   return (
     <div class="flex flex-col dark:bg-gray-800 dark:text-gray-100 min-h-screen">
       <DashBoardHeader />

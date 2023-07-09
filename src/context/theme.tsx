@@ -37,7 +37,7 @@ const ThemeProvider = (props: TThemeProviderProps) => {
   return <ThemeContext.Provider value={values}>{props.children}</ThemeContext.Provider>;
 };
 
-export const ThemeContext = createContext<TThemeContext>([() => "", undefined]);
+const ThemeContext = createContext<TThemeContext>([() => "", undefined]);
 
 export default ThemeProvider;
 

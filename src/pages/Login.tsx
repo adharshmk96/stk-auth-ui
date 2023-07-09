@@ -3,7 +3,7 @@ import createForm from "@/lib/solid-hook-form";
 import { SubmitHandler } from "@/lib/solid-hook-form/types/form";
 import { Icon } from "@iconify-icon/solid";
 import { useNavigate } from "@solidjs/router";
-import { Show, createEffect, createSignal } from "solid-js";
+import { Show, createEffect, createSignal, onMount } from "solid-js";
 
 // context
 import { useTitle } from "@/context/title";
@@ -18,6 +18,7 @@ import Input from "@/components/form/TextInput";
 // content
 import { AUTH_SERVER_URL } from "@/config";
 import Content from "@/content/en";
+import { useAuth } from "@/context/auth";
 
 const fc = {
   brand: Content.appName,
@@ -36,13 +37,26 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [_title, setTitle] = useTitle();
+
+  const { isAuth, login, error } =  useAuth();
+
   const [showPassword, setShowPassword] = createSignal<boolean>(false);
   
   const { register, handleSubmit } = createForm<FormValues>({ username: "", password: "" });
-  
+   
   createEffect(() => {
     setTitle("Login");
   });
+
+  createEffect(() => {
+    if (isAuth()) {
+      navigate("/dashboard");
+    }
+
+    if (error() != "") {
+      alert(error());
+    }
+  })
 
   const togglePassword = () => {
     setShowPassword(p => !p);
@@ -55,21 +69,7 @@ const Login = () => {
   );
 
   const submitHandler: SubmitHandler<FormValues> = async data => {
-    const response = await fetch(`${AUTH_SERVER_URL}/api/auth/session/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      credentials: "include",
-      body: JSON.stringify(data)
-    });
-
-    if (response.ok) {
-      const { message } = await response.json();
-      navigate("/dashboard");
-    } else {
-      alert("Invalid username or password");
-    }
+    login(data.username, data.password);
   };
 
   return (

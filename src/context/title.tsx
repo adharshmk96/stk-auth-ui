@@ -7,7 +7,7 @@ interface TitleProviderProps {
 
 type TTitleContext = [Accessor<string>, Setter<string>];
 
-export const TitleContext = createContext<TTitleContext>([() => "", undefined]);
+const TitleContext = createContext<TTitleContext>([() => "", undefined]);
 
 function TitleProvider(props: TitleProviderProps) {
   const [title, setTitle] = createSignal("");
@@ -28,4 +28,5 @@ function TitleProvider(props: TitleProviderProps) {
 }
 
 export const useTitle = () => useContext(TitleContext);
+
 export default TitleProvider;
