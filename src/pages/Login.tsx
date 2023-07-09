@@ -37,9 +37,9 @@ const Login = () => {
 
   const [_title, setTitle] = useTitle();
   const [showPassword, setShowPassword] = createSignal<boolean>(false);
-
+  
   const { register, handleSubmit } = createForm<FormValues>({ username: "", password: "" });
-
+  
   createEffect(() => {
     setTitle("Login");
   });
@@ -60,12 +60,15 @@ const Login = () => {
       headers: {
         "Content-Type": "application/json"
       },
+      credentials: "include",
       body: JSON.stringify(data)
     });
 
     if (response.ok) {
       const { message } = await response.json();
       navigate("/dashboard");
+    } else {
+      alert("Invalid username or password");
     }
   };
 

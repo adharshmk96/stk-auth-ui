@@ -2,22 +2,18 @@ import { Accessor, JSXElement, Setter, children, createContext, createEffect, cr
 
 import constants from "@/constants";
 
-const ThemeKey = "stk-auth-theme";
-
-const themeContext = (defaultValue: string) => {
-  const [theme, setTheme] = createSignal<string>(defaultValue);
-  
-  return [theme, setTheme] as const;
-}
-
 type TThemeProviderProps = {
   children: JSXElement;
   defaultTheme: string;
 };
 
+type TThemeContext = [Accessor<string>, Setter<string>];
+
+const ThemeKey = "stk-auth-theme";
+
+
 const ThemeProvider = (props: TThemeProviderProps) => {
-  const c = children(() => props.children);
-  const [theme, setTheme] = themeContext(props.defaultTheme);
+  const [theme, setTheme] = createSignal<string>(props.defaultTheme);
 
   onMount(() => {
     // read from cache
@@ -36,12 +32,10 @@ const ThemeProvider = (props: TThemeProviderProps) => {
     localStorage.setItem(ThemeKey, theme());
   });
 
-  const values = [theme, setTheme] as const;
+  const values: TThemeContext = [theme, setTheme];
 
-  return <ThemeContext.Provider value={values}>{c()}</ThemeContext.Provider>;
+  return <ThemeContext.Provider value={values}>{props.children}</ThemeContext.Provider>;
 };
-
-type TThemeContext = ReturnType<typeof themeContext>;
 
 export const ThemeContext = createContext<TThemeContext>([() => "", undefined]);
 

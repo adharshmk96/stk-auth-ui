@@ -5,15 +5,12 @@ interface TitleProviderProps {
   prefix?: string;
 }
 
+type TTitleContext = [Accessor<string>, Setter<string>];
 
-const titleContext = (defaultValue: string) => {
-  const [title, setTitle] = createSignal<string>(defaultValue);  
-  return [title, setTitle] as const;
-}
+export const TitleContext = createContext<TTitleContext>([() => "", undefined]);
 
 function TitleProvider(props: TitleProviderProps) {
-  const c = children(() => props.children);
-  const [title, setTitle] = titleContext("");
+  const [title, setTitle] = createSignal("");
   
   createEffect(() => {
     const prefix = props.prefix || "";
@@ -21,16 +18,14 @@ function TitleProvider(props: TitleProviderProps) {
     document.title = finalTitle();
   });
   
-  const values = [title, setTitle] as const;
+  const values: TTitleContext = [title, setTitle];
   
   return (
     <TitleContext.Provider value={values}>
-      <>{c()}</>
+      <>{props.children}</>
     </TitleContext.Provider>
   );
 }
 
-type TTitleContext = ReturnType<typeof titleContext>;
-export const TitleContext = createContext<TTitleContext>([() => "", undefined]);
 export const useTitle = () => useContext(TitleContext);
 export default TitleProvider;

@@ -7,11 +7,10 @@ interface providersProps {
 }
 
 function ContextProvider(props: providersProps) {
-  const c = children(() => props.children);
   return (
     <>
       <TitleProvider prefix="Auth">
-        <ThemeProvider defaultTheme="light">{c()}</ThemeProvider>
+        <ThemeProvider defaultTheme="light">{props.children}</ThemeProvider>
       </TitleProvider>
     </>
   );
