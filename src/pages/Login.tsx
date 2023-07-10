@@ -1,67 +1,112 @@
-import { Icon } from '@iconify-icon/solid';
-import { createEffect, createSignal } from 'solid-js';
-import { useTitle } from '../context/title';
-import LoginLayout from '../layouts/LoginLayout';
+// libraries
+import createForm from "@/lib/solid-hook-form";
+import { SubmitHandler } from "@/lib/solid-hook-form/types/form";
+import { Icon } from "@iconify-icon/solid";
+import { useNavigate } from "@solidjs/router";
+import { Show, createEffect, createSignal, onMount } from "solid-js";
+
+// context
+import { useTitle } from "@/context/title";
+
+// layouts
+import LoginLayout from "@/layouts/LoginLayout";
+
+// components
+import SubmitButton from "@/components/form/Submit";
+import Input from "@/components/form/TextInput";
+
+// content
+import { AUTH_SERVER_URL } from "@/config";
+import Content from "@/content/en";
+import { useAuth } from "@/context/auth";
 
 const fc = {
-    brand: "STK User Managment",
-    loginText: "Admin Login",
-}
+  brand: Content.appName,
+  loginText: Content.loginPage.title,
+  loginUsername: Content.loginPage.username,
+  loginPassword: Content.loginPage.password,
+  loginButton: Content.loginPage.button
+};
+
+type FormValues = {
+  username: string;
+  password: string;
+};
 
 const Login = () => {
-    const [title, setTitle] = useTitle();
-    const [showPassword, setShowPassword] = createSignal<boolean>(false);
+  const navigate = useNavigate();
 
-    createEffect(() => {
-        setTitle("Login");
-    })
+  const [_title, setTitle] = useTitle();
 
-    const togglePassword = () => {
-        setShowPassword(p => !p);
+  const { isAuth, login, error } =  useAuth();
+
+  const [showPassword, setShowPassword] = createSignal<boolean>(false);
+  
+  const { register, handleSubmit } = createForm<FormValues>({ username: "", password: "" });
+   
+  createEffect(() => {
+    setTitle("Login");
+  });
+
+  createEffect(() => {
+    if (isAuth()) {
+      navigate("/dashboard");
     }
 
-    const passwordIcon = () => {
-        if (showPassword()) {
-            return <Icon icon="ph:eye-slash" class="text-2xl" />
-        } else {
-            return <Icon icon="ph:eye" class="text-2xl" />
-        }
+    if (error() != "") {
+      alert(error());
     }
+  })
 
-    return (
-        <LoginLayout>
-            <div class='p-5'>
-                <div class='flex items-center justify-center gap-2 mb-4'>
-                    <h1 class="text-2xl">{fc.brand}</h1>
-                </div>
-                <form class='flex flex-col gap-5'>
-                    <div class='flex flex-row items-center justify-center gap-3'>
-                        <Icon icon="ph:key" class="text-4xl" />
-                        <h1 class="text-3xl">{fc.loginText}</h1>
-                    </div>
-                    <div class="flex flex-col items-start justify-center">
-                        <label  for="login-username" class="text-2xl">Username</label>
-                        <input  id="login-username" type="text" placeholder="Username" class="border-2 border-gray-300 rounded-md p-2 mt-2 w-full" />
-                    </div>
-                    <div class="flex flex-col items-start justify-center">
-                        <label class="text-2xl" for='login-password'>Password</label>
-                        <div class="flex relative items-center justify-center gap-4">
-                        <input id='login-password' type={showPassword() ? "text": "password"} placeholder="Password" class="border-2 border-gray-300 rounded-md p-2 mt-2 w-full" />
-                        <button onClick={() => togglePassword()} type="button" class="absolute right-2 top-4">
-                            {passwordIcon()}
-                        </button>
+  const togglePassword = () => {
+    setShowPassword(p => !p);
+  };
 
-                        </div>
-                    </div>
-                    <div class="flex flex-row items-right justify-end">
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Login
-                        </button>
-                    </div>
-                </form>
+  const passwordIcon = () => (
+    <Show when={showPassword()} fallback={<Icon icon="ph:eye-slash" class="text-2xl" />}>
+      <Icon icon="ph:eye" class="text-2xl" />
+    </Show>
+  );
+
+  const submitHandler: SubmitHandler<FormValues> = async data => {
+    login(data.username, data.password);
+  };
+
+  return (
+    <LoginLayout>
+      <div class="p-5">
+        <div class="flex items-center justify-center gap-2 mb-4">
+          <h1 class="text-2xl">{fc.brand}</h1>
+        </div>
+        <form class="flex flex-col gap-5" onSubmit={handleSubmit(submitHandler)}>
+          <div class="flex flex-row items-center justify-center gap-3">
+            <Icon icon="ph:key" class="text-4xl" />
+            <h1 class="text-3xl">{fc.loginText}</h1>
+          </div>
+          <div class="flex flex-col items-start justify-center">
+            <label for="login-username" class="text-2xl">
+              {fc.loginUsername}
+            </label>
+            <Input id="login-username" type="text" placeholder="Username" {...register("username")} />
+          </div>
+          <div class="flex flex-col items-start justify-center">
+            <label class="text-2xl" for="login-password">
+              {fc.loginPassword}
+            </label>
+            <div class="flex relative items-center justify-center gap-4">
+              <Input id="login-password" type={showPassword() ? "text" : "password"} placeholder="Password" {...register("password")} />
+              <button onClick={() => togglePassword()} type="button" class="absolute right-2 top-4 dark:text-black">
+                {passwordIcon()}
+              </button>
             </div>
-        </LoginLayout>
-    )
-}
+          </div>
+          <div class="flex flex-row items-right justify-end">
+            <SubmitButton>{fc.loginButton}</SubmitButton>
+          </div>
+        </form>
+      </div>
+    </LoginLayout>
+  );
+};
 
-export default Login
+export default Login;
