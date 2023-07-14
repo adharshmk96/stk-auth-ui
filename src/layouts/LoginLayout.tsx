@@ -14,7 +14,7 @@ const LoginLayout: Component<LoginLayoutProps> = (props: LoginLayoutProps) => {
         <div class="flex justify-end p-5">
           <ThemeSwitch />
         </div>
-        <div class="flex items-center justify-center">{c()}</div>
+        <div class="flex items-center justify-center lg:mt-auto">{c()}</div>
         <div class="mt-auto">
           <Footer />
         </div>

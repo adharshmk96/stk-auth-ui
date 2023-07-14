@@ -27,6 +27,7 @@
     "vite-plugin-solid": "^2.7.0"
   },
   "dependencies": {
+    "@kobalte/core": "^0.9.8",
     "@solidjs/router": "^0.8.2",
     "@solidjs/testing-library": "^0.8.4",
     "solid-js": "^1.7.7"
