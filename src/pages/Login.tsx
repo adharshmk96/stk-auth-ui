@@ -104,7 +104,9 @@ const Login = () => {
             </div>
           </TextField.Root>
           <div class="flex flex-row items-right justify-end">
-            <SubmitButton>{fc.loginButton}</SubmitButton>
+            <Button.Root type="submit" class="btn btn-primary">
+              {fc.loginButton}
+            </Button.Root>
           </div>
         </form>
       </div>

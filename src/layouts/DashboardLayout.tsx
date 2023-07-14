@@ -25,15 +25,14 @@ function DashboardLayout(props: DashboardLayoutProps) {
   });
 
   return (
-    <AuthProvider>
-      <div class="flex flex-col dark:bg-gray-800 dark:text-gray-100 min-h-screen">
+    
+      <div class="flex flex-col base-100 min-h-screen">
         <DashBoardHeader />
         <div class="p-5">{c()}</div>
         <div class="mt-auto">
           <Footer />
         </div>
       </div>
-    </AuthProvider>
   );
 }
 

@@ -12,7 +12,7 @@ function ContextProvider(props: providersProps) {
     <>
       <TitleProvider prefix="Auth">
         <ThemeProvider defaultTheme="light">
-          {props.children}
+          <AuthProvider>{props.children}</AuthProvider>
         </ThemeProvider>
       </TitleProvider>
     </>
