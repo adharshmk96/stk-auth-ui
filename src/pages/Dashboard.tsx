@@ -1,12 +1,12 @@
 import { useAuth } from "@/context/auth";
 import DashboardLayout from "@/layouts/DashboardLayout";
-import { createEffect } from "solid-js";
+import { Component } from "solid-js";
 
 interface DashboardProps {
   // add props here
 }
 
-function Dashboard(props: DashboardProps) {
+const Dashboard: Component<DashboardProps> = () => {
   const { user } = useAuth();
 
   return (
