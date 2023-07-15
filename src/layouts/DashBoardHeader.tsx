@@ -14,11 +14,17 @@ import { pageUrls } from "@/constants";
 const fc = content.dashboard;
 const fch = content.header;
 
-interface DashBoardHeaderProps {
+interface HeaderProps {
   logout: () => void;
 }
 
-function HeaderMenu(props: DashBoardHeaderProps) {
+function HeaderMenu(props: HeaderProps) {
+  const navigate = useNavigate();
+
+  const navigateToDashboard = () => {
+    navigate(pageUrls.dashboard);
+  };
+
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger class="btn btn-square btn-ghost">
@@ -26,19 +32,17 @@ function HeaderMenu(props: DashBoardHeaderProps) {
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content class="px-2 py-4 shadow menu dropdown-content bg-base-300 rounded-box gap-5">
-          <DropdownMenu.Item class="text-base-content">
-            <Link href={pageUrls.dashboard}>
-              <span class="flex flex-row items-center justify-start gap-5 px-5 text-xl">
-                <Icon icon="material-symbols:dashboard-outline" class="text-2xl" />
-                {fch.dashboard}
-              </span>
-            </Link>
-          </DropdownMenu.Item>
-          <DropdownMenu.Item class="text-base-content">
+          <DropdownMenu.Item class="text-base-content" onSelect={navigateToDashboard}>
             <span class="flex flex-row items-center justify-start gap-5 px-5 text-xl">
-              <Icon icon="ph:sign-out" class="text-2xl" />
-              {fch.logout}
+              <Icon icon="material-symbols:dashboard-outline" class="text-2xl" />
+              {fch.dashboard}
             </span>
+          </DropdownMenu.Item>
+          <DropdownMenu.Item class="text-base-content" onSelect={props.logout}>
+              <span class="flex flex-row items-center justify-start gap-5 px-5 text-xl">
+                <Icon icon="ph:sign-out" class="text-2xl" />
+                {fch.logout}
+              </span>
           </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>

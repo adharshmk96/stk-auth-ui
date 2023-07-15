@@ -1,6 +1,6 @@
 import Loading from "@/components/loading/loading";
-import { AUTH_SERVER_URL } from "@/config";
-import { Accessor, JSXElement, Setter, Show, createContext, createEffect, createResource, createSignal, onMount, useContext } from "solid-js";
+import { apiUrls } from "@/constants";
+import { Accessor, JSXElement, Show, createContext, createEffect, createResource, createSignal, useContext } from "solid-js";
 
 type TAuthProviderProps = {
   children: JSXElement;
@@ -26,8 +26,7 @@ type TAuthContext = {
 };
 
 const fetchUser = async () => {
-
-  const response = await fetch(`${AUTH_SERVER_URL}/api/auth/session/user`, {
+  const response = await fetch(apiUrls.authUser, {
     method: "GET",
     credentials: "include"
   });
@@ -50,12 +49,12 @@ const AuthProvider = (props: TAuthProviderProps) => {
       setIsAuth(true);
     }
 
-    console.log(user.error)
+    console.log(user.error);
   });
 
   const login: Login = async (username, password) => {
     try {
-      const response = await fetch(`${AUTH_SERVER_URL}/api/auth/session/login`, {
+      const response = await fetch(apiUrls.login, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -71,9 +70,9 @@ const AuthProvider = (props: TAuthProviderProps) => {
       }
 
       if (response.status === 401) {
-        const msg = await response.json()
-        if (msg == "invalid_credentials")  {
-            setError("Invalid username or password");
+        const msg = await response.json();
+        if (msg == "invalid_credentials") {
+          setError("Invalid username or password");
         }
       }
     } catch (error) {
@@ -84,7 +83,7 @@ const AuthProvider = (props: TAuthProviderProps) => {
 
   const logout: Logout = async () => {
     try {
-      const response = await fetch(`${AUTH_SERVER_URL}/api/auth/logout`, {
+      const response = await fetch(apiUrls.logout, {
         method: "POST",
         credentials: "include"
       });

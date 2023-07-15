@@ -3,8 +3,19 @@ export default {
   LIGHT_MODE: "light"
 };
 
+export const basePath = "";
+export const apiServerUrl = "http://localhost:8080";
+
 export const pageUrls = {
-  dashboard: "/dashboard",
-  users: "/dashboard/users",
-  login: "/login",
+  home: `${basePath}/`,
+  dashboard: `${basePath}/dashboard`,
+  users: `${basePath}/dashboard/users`,
+  login: `${basePath}/login`,
+}
+
+export const apiUrls = {
+  login: `${apiServerUrl}/api/auth/session/login`,
+  logout: `${apiServerUrl}/api/auth/logout`,
+  authUser: `${apiServerUrl}/api/auth/session/user`,
+  users: `${apiServerUrl}/api/admin/users`,
 }

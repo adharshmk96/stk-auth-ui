@@ -1,0 +1,22 @@
+name: Deploy to Linode
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build
+      run: npm run build
+
+    - name: Deploy
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh -o StrictHostKeyChecking=no user@your-server-ip "rm -rf /path/to/your/vite-project/dist/*"
+        scp -o StrictHostKeyChecking=no -r ./dist/* user@your-server-ip:/path/to/your/vite-project/dist/

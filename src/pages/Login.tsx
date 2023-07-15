@@ -10,12 +10,12 @@ import { useTitle } from "@/context/title";
 import LoginLayout from "@/layouts/LoginLayout";
 
 // components
-import SubmitButton from "@/components/form/Submit";
+import { Button, TextField } from "@kobalte/core";
 
 // content
+import { pageUrls } from "@/constants";
 import Content from "@/content/en";
 import { useAuth } from "@/context/auth";
-import { Button, TextField } from "@kobalte/core";
 
 const fc = {
   brand: Content.appName,
@@ -40,7 +40,7 @@ const Login = () => {
 
   createEffect(() => {
     if (isAuth()) {
-      navigate("/dashboard");
+      navigate(pageUrls.dashboard);
     }
 
     if (error() != "") {
