@@ -30,8 +30,10 @@
   },
   "dependencies": {
     "@kobalte/core": "^0.9.8",
+    "@kobalte/tailwindcss": "^0.6.5",
     "@solidjs/router": "^0.8.2",
     "@solidjs/testing-library": "^0.8.4",
+    "@tanstack/solid-table": "^8.9.3",
     "solid-js": "^1.7.7"
   }
 }

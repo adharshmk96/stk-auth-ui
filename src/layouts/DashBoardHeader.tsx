@@ -1,16 +1,50 @@
 // libraries
+import { Link, useNavigate } from "@solidjs/router";
 import { Icon } from "@iconify-icon/solid";
+import { DropdownMenu } from "@kobalte/core";
 
 // components
+import { useAuth } from "@/context/auth";
 import ThemeSwitch from "@/components/ThemeSwitch";
 
 // content
 import content from "@/content/en";
-import { AUTH_SERVER_URL } from "@/config";
-import { useNavigate } from "@solidjs/router";
-import { useAuth } from "@/context/auth";
+import { pageUrls } from "@/constants";
 
 const fc = content.dashboard;
+const fch = content.header;
+
+interface DashBoardHeaderProps {
+  logout: () => void;
+}
+
+function HeaderMenu(props: DashBoardHeaderProps) {
+  return (
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger class="btn btn-square btn-ghost">
+        <Icon icon="ph:user-circle-fill" class="text-4xl" />
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content class="px-2 py-4 shadow menu dropdown-content bg-base-300 rounded-box gap-5">
+          <DropdownMenu.Item class="text-base-content">
+            <Link href={pageUrls.dashboard}>
+              <span class="flex flex-row items-center justify-start gap-5 px-5 text-xl">
+                <Icon icon="material-symbols:dashboard-outline" class="text-2xl" />
+                {fch.dashboard}
+              </span>
+            </Link>
+          </DropdownMenu.Item>
+          <DropdownMenu.Item class="text-base-content">
+            <span class="flex flex-row items-center justify-start gap-5 px-5 text-xl">
+              <Icon icon="ph:sign-out" class="text-2xl" />
+              {fch.logout}
+            </span>
+          </DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
+  );
+}
 
 interface DashBoardHeaderProps {
   // add props here
@@ -26,22 +60,15 @@ function DashBoardHeader(props: DashBoardHeaderProps) {
     if (error() == "") {
       navigate("/");
     }
-      
-  }
+  };
 
   return (
     <header class="flex justify-between items-center p-5 border-b-2 border-base-300 bg-neutral text-neutral-content base-content">
       <h2>{fc.title}</h2>
-      <div class="flex gap-5 items-center justify-center">
-      <ThemeSwitch />
-      <button 
-        onClick={logoutUser}
-        type="button"
-      >
-        <Icon icon="ph:sign-out" class="text-3xl" />
-      </button>
+      <div class="flex gap-2 items-center justify-center">
+        <ThemeSwitch />
+        <HeaderMenu logout={logoutUser} />
       </div>
-      
     </header>
   );
 }

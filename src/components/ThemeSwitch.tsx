@@ -15,17 +15,15 @@ function ThemeSwitch(props: ThemeSwitchProps) {
   }
 
   return (
-    <div>
         <label class="swap swap-rotate">
   
           <input type="checkbox" onChange={toggleTheme} checked={theme() === constants.LIGHT_MODE} />
           
-          <Icon icon="carbon:moon" class="swap-on text-3xl" />
+          <Icon icon="carbon:moon" class="swap-on text-4xl" />
 
-          <Icon icon="carbon:sunny" class="swap-off text-3xl" />
+          <Icon icon="carbon:sunny" class="swap-off text-4xl" />
           
         </label>
-    </div>
   );
 }
 

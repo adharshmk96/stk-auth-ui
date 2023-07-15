@@ -6,7 +6,11 @@ const config: Config = {
   theme: {
     extend: {}
   },
-  plugins: [require("@tailwindcss/typography"), require("daisyui")],
+  plugins: [
+    require("@kobalte/tailwindcss"),
+    require("@tailwindcss/typography"), 
+    require("daisyui")
+  ],
   daisyui: {
     themes: ["light", "dark"],
   }

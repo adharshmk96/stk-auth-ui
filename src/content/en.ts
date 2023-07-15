@@ -8,5 +8,9 @@ export default {
   },
   dashboard: {
     title: "STK"
+  },
+  header: {
+    logout: "Logout",
+    dashboard: "Dashboard",
   }
 };
