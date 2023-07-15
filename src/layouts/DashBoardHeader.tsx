@@ -30,7 +30,7 @@ function DashBoardHeader(props: DashBoardHeaderProps) {
   }
 
   return (
-    <header class="flex justify-between items-center p-5 border-b-2 border-b-black dark:bg-gray-900 dark:text-gray-100">
+    <header class="flex justify-between items-center p-5 border-b-2 border-base-300 bg-neutral text-neutral-content base-content">
       <h2>{fc.title}</h2>
       <div class="flex gap-5 items-center justify-center">
       <ThemeSwitch />

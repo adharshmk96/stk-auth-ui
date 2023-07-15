@@ -10,7 +10,7 @@ const LoginLayout: Component<LoginLayoutProps> = (props: LoginLayoutProps) => {
   const c = children(() => props.children);
   return (
     <>
-      <div class="flex flex-col min-h-screen dark:bg-gray-800 dark:text-gray-200">
+      <div class="flex flex-col min-h-screen">
         <div class="flex justify-end p-5">
           <ThemeSwitch />
         </div>

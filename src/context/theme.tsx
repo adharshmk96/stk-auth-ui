@@ -27,7 +27,8 @@ const ThemeProvider = (props: TThemeProviderProps) => {
   });
 
   createEffect(() => {
-    document.documentElement.classList.toggle(constants.DARK_MODE, theme() === constants.DARK_MODE);
+    // document.documentElement.classList.toggle(constants.DARK_MODE, theme() === constants.DARK_MODE);
+    document.documentElement.setAttribute("data-theme", theme());
     // write to cache
     localStorage.setItem(ThemeKey, theme());
   });
