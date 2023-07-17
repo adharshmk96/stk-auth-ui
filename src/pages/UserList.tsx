@@ -1,11 +1,13 @@
 // lib
-import { Component, ComponentProps, Resource, Suspense, createResource, createSignal } from "solid-js";
+import { Component, ComponentProps, Resource, Suspense, createEffect, createResource, createSignal } from "solid-js";
 
 // layout
 import DashboardLayout from "@/layouts/DashboardLayout";
 
 // config
 import { apiUrls } from "@/constants";
+import { Button } from "@kobalte/core";
+import { Icon } from "@iconify-icon/solid";
 
 interface UserListProps extends ComponentProps<any> {
   // add props here
@@ -73,16 +75,27 @@ const UserList: Component<UserListProps> = () => {
   const [state, setState] = createSignal({ page: 1, limit: 5 });
   const [userList, { refetch }] = createResource(() => fetchUserList(state().page, state().limit));
 
+  createEffect(() => {
+    state();
+    refetch();
+  });
+
   return (
     <DashboardLayout>
       <Suspense fallback={<div>Loading...</div>}>
         <UserListTable userList={userList} />
-        <button onClick={() => setState({ ...state(), page: state().page - 1 })} disabled={state().page === 1}>
-          Previous
-        </button>
-        <button onClick={() => setState({ ...state(), page: state().page + 1 })} disabled={state().page * state().limit >= userList()?.total}>
-          Next
-        </button>
+        <div class="p-5 flex items-center justify-between">
+          <Button.Root class="btn btn-secondary" onClick={() => setState({ ...state(), page: state().page - 1 })} disabled={state().page === 1}>
+            <Icon icon="ph:arrow-left" class="text-2xl" />
+          </Button.Root>
+          <Button.Root
+            class="btn btn-secondary"
+            onClick={() => setState({ ...state(), page: state().page + 1 })}
+            disabled={state().page * state().limit >= userList()?.total}
+          >
+            <Icon icon="ph:arrow-right" class="text-2xl" />
+          </Button.Root>
+        </div>
 
         <p>
           Showing {(state().page - 1) * state().limit + 1} - {Math.min(state().page * state().limit, userList()?.total)} of {userList()?.total} users
